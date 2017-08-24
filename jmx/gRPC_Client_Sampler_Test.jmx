@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="3.1" jmeter="3.1 r1770033">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="GRPC_Server_Test" enabled="true">
+        <stringProp name="TestPlan.comments">provisioning of stability test data</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1341812931000</longProp>
+        <longProp name="ThreadGroup.end_time">1341812931000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">2</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="TC_Counter" enabled="true">
+          <stringProp name="CounterConfig.start">1</stringProp>
+          <stringProp name="CounterConfig.end">9999999</stringProp>
+          <stringProp name="CounterConfig.incr">1</stringProp>
+          <stringProp name="CounterConfig.name">TC_Counter</stringProp>
+          <stringProp name="CounterConfig.format"></stringProp>
+          <boolProp name="CounterConfig.per_user">false</boolProp>
+        </CounterConfig>
+        <hashTree/>
+        <org.albertyang2007.jmeter.grpc.client.GrpcClientSampler guiclass="TestBeanGUI" testclass="org.albertyang2007.jmeter.grpc.client.GrpcClientSampler" testname="GrpcClientSampler" enabled="true">
+          <stringProp name="hostname">localhost</stringProp>
+          <stringProp name="method">sendMessage</stringProp>
+          <intProp name="port">50051</intProp>
+          <stringProp name="request">io.grpc.examples.helloworld.MsgRequest</stringProp>
+          <boolProp name="asyncCall">true</boolProp>
+          <stringProp name="packageN">io.grpc.examples.helloworld</stringProp>
+          <stringProp name="service">Greeter</stringProp>
+          <stringProp name="response">MsgReply</stringProp>
+          <stringProp name="parameters">Albert</stringProp>
+          <stringProp name="requestBuilderCode">import io.grpc.examples.helloworld.MsgRequest;
+import com.google.protobuf.Message;
+
+public class RequestFactory {
+	public Message buildRequest() {
+		MsgRequest request = MsgRequest.newBuilder().setName(&quot;NameValue&quot;).setId(${TC_Counter}).build();
+		return request;
+	}
+}
+</stringProp>
+        </org.albertyang2007.jmeter.grpc.client.GrpcClientSampler>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1065998970">NameValue</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">true</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <org.albertyang2007.jmeter.grpc.client.GrpcClientSampler guiclass="TestBeanGUI" testclass="org.albertyang2007.jmeter.grpc.client.GrpcClientSampler" testname="GrpcClientSampler" enabled="false">
+          <stringProp name="hostname">localhost</stringProp>
+          <intProp name="port">50051</intProp>
+          <stringProp name="packageN">io.grpc.examples.helloworld</stringProp>
+          <stringProp name="service">Greeter</stringProp>
+          <boolProp name="asyncCall">false</boolProp>
+          <stringProp name="method">sayHello</stringProp>
+          <stringProp name="request">io.grpc.examples.helloworld.HelloRequest</stringProp>
+          <stringProp name="response">HelloReply</stringProp>
+          <stringProp name="requestBuilderCode">import io.grpc.examples.helloworld.HelloRequest;
+import com.google.protobuf.Message;
+
+public class RequestFactory {
+	public Message buildRequest() {
+		HelloRequest request = HelloRequest.newBuilder().setName(&quot;NameValue&quot;).build();
+		return request;
+	}
+}</stringProp>
+        </org.albertyang2007.jmeter.grpc.client.GrpcClientSampler>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1065998970">NameValue</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">true</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="Java请求" enabled="false">
+          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="hostname" elementType="Argument">
+                <stringProp name="Argument.name">hostname</stringProp>
+                <stringProp name="Argument.value">localhost</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="port" elementType="Argument">
+                <stringProp name="Argument.name">port</stringProp>
+                <stringProp name="Argument.value">50051</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="asyncCall" elementType="Argument">
+                <stringProp name="Argument.name">asyncCall</stringProp>
+                <stringProp name="Argument.value">false</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="packageN" elementType="Argument">
+                <stringProp name="Argument.name">packageN</stringProp>
+                <stringProp name="Argument.value">io.grpc.examples.helloworld</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="service" elementType="Argument">
+                <stringProp name="Argument.name">service</stringProp>
+                <stringProp name="Argument.value">Greeter</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="method" elementType="Argument">
+                <stringProp name="Argument.name">method</stringProp>
+                <stringProp name="Argument.value">sendMessage</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="request" elementType="Argument">
+                <stringProp name="Argument.name">request</stringProp>
+                <stringProp name="Argument.value">MsgRequest</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="requestBuilderCode" elementType="Argument">
+                <stringProp name="Argument.name">requestBuilderCode</stringProp>
+                <stringProp name="Argument.value">import io.grpc.examples.helloworld.MsgRequest;
+import com.google.protobuf.Message;
+
+public class RequestFactory {
+	public Message buildRequest() {
+		MsgRequest request = MsgRequest.newBuilder().setName(&quot;NameValue&quot;).setId(${TC_Counter}).build();
+		return request;
+	}
+}
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="classname">org.albertyang2007.jmeter.grpc.client.GrpcClientSampler2</stringProp>
+        </JavaSampler>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1065998970">NameValue</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">true</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>false</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>false</threadName>
+            <dataType>false</dataType>
+            <encoding>false</encoding>
+            <assertions>false</assertions>
+            <subresults>false</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>true</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <threadCounts>true</threadCounts>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="聚合报告" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
